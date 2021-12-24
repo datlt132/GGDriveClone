@@ -47,8 +47,17 @@ public class FileResource {
     private AccessControlService accessControlService;
 
     @PostMapping("/createFolder")
-    public String createFolder(@RequestBody String folderName) {
-        return FILE_DIRECTORY + folderName + "/";
+    public String createFolder(@RequestParam String folderName) {
+        File file = new File(FILE_DIRECTORY + folderName);
+        System.out.println(file.toString());
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                return "Directory is created!";
+            } else {
+                return "Failed to create directory!";
+            }
+        }
+        return "Folder existed!";
     }
 
     //Upload new file with request param MultipartFile
